@@ -673,7 +673,7 @@
   </div>
 
   <!-- 3. BOUTON MAÎTRE : ENREGISTRER LE CONTACT -->
-  <a class="btn-main-save" id="btnSaveContact" href="contact.vcf" download="Fatima-Allali.vcf">
+  <a class="btn-main-save" id="btnSaveContact" href="contact.vcf">
     <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
     <span>Enregistrer le contact</span>
   </a>
@@ -833,16 +833,18 @@
     setTimeout(() => toast.classList.remove('show'), 2400);
   }
 
-  // Partager
+  // Partager (envoi de l'URL propre sans texte parasite pour déclencher la vignette WhatsApp)
+  const shareTargetUrl = "https://imaginart-design.github.io/ALLALI-S-FIRM/?v=2";
+
   document.getElementById('btnShare').addEventListener('click', async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Fatima Allali — Allali's Firm",
-          text: "Fatima Allali · Associate Director, Allali's Firm",
-          url: pageUrl
+          url: shareTargetUrl
         });
-      } catch (e) {}
+      } catch (e) {
+        copyUrl();
+      }
     } else {
       copyUrl();
     }
@@ -852,10 +854,10 @@
   document.getElementById('btnCopy').addEventListener('click', copyUrl);
   async function copyUrl() {
     try {
-      await navigator.clipboard.writeText(pageUrl);
+      await navigator.clipboard.writeText(shareTargetUrl);
       showToast('✓ Lien copié dans le presse-papier');
     } catch (e) {
-      prompt('Copiez le lien ci-dessous :', pageUrl);
+      prompt('Copiez le lien ci-dessous :', shareTargetUrl);
     }
   }
 
@@ -866,9 +868,9 @@
   const qrImage = document.getElementById('qrImage');
 
   btnQr.addEventListener('click', () => {
-    const encodedUrl = encodeURIComponent(pageUrl);
+    const encodedUrl = encodeURIComponent(shareTargetUrl);
     qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=06-07-10&data=' + encodedUrl;
-    document.getElementById('qrUrlLabel').textContent = pageUrl;
+    document.getElementById('qrUrlLabel').textContent = shareTargetUrl;
     modalQr.classList.add('active');
   });
 
@@ -880,33 +882,48 @@
     if (e.target === modalQr) modalQr.classList.remove('active');
   });
 
-  // Sauvegarde vCard universelle
-  document.getElementById('btnSaveContact').addEventListener('click', function(e) {
-    if (window.location.protocol === 'file:') {
-      e.preventDefault();
-      const vcardData = [
-        "BEGIN:VCARD",
-        "VERSION:3.0",
-        "N:Allali;Fatima;;;",
-        "FN:Fatima Allali",
-        "ORG:Allali's Firm",
-        "TITLE:Associate Director",
-        "TEL;TYPE=CELL,VOICE,pref:+212698763489",
-        "EMAIL;TYPE=INTERNET,pref:allalifatema09@gmail.com",
-        "URL:" + pageUrl,
-        "NOTE:PhD, Ing, MBA École des Ponts Business School",
-        "END:VCARD"
-      ].join("\r\n");
+  // Gestion intelligente : Enregistrer le contact (Smartphone vs PC)
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const btnSave = document.getElementById('btnSaveContact');
 
-      const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'Fatima-Allali.vcf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  });
+  if (isMobile) {
+    // SUR SMARTPHONE : Ouvrir directement l'application Contacts du téléphone
+    btnSave.removeAttribute('download');
+    btnSave.addEventListener('click', function(e) {
+      // Sur iPhone / Android, ouvrir le fichier vcf sans l'attribut 'download'
+      // déclenche immédiatement l'affichage de la fiche contact native !
+      window.location.href = 'contact.vcf';
+    });
+  } else {
+    // SUR ORDINATEUR : Télécharger simplement le fichier
+    btnSave.setAttribute('download', 'Fatima-Allali.vcf');
+    btnSave.addEventListener('click', function(e) {
+      if (window.location.protocol === 'file:') {
+        e.preventDefault();
+        const vcardData = [
+          "BEGIN:VCARD",
+          "VERSION:3.0",
+          "N:Allali;Fatima;;;",
+          "FN:Fatima Allali",
+          "ORG:Allali's Firm",
+          "TITLE:Associate Director",
+          "TEL;TYPE=CELL,VOICE,pref:+212698763489",
+          "EMAIL;TYPE=INTERNET,pref:allalifatema09@gmail.com",
+          "URL:" + shareTargetUrl,
+          "NOTE:PhD, Ing, MBA École des Ponts Business School",
+          "END:VCARD"
+        ].join("\r\n");
+
+        const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'Fatima-Allali.vcf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
+  }
 </script>
 </body>
 </html>
