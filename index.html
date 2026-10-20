@@ -637,7 +637,7 @@
       position: fixed;
       bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(80px);
+      transform: translateX(-50%) translateY(20px);
       background: #1c1a17;
       border: 1px solid var(--gold-champagne);
       color: #fbf8f2;
@@ -647,15 +647,21 @@
       font-size: 13px;
       font-weight: 500;
       box-shadow: 0 10px 30px rgba(28, 26, 23, 0.35);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 200;
       display: flex;
       align-items: center;
       gap: 8px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     .toast.show {
       transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
     }
   </style>
 </head>
