@@ -833,14 +833,15 @@
     setTimeout(() => toast.classList.remove('show'), 2400);
   }
 
-  // Partager (envoi de l'URL propre sans texte parasite pour déclencher la vignette WhatsApp)
+  // Partager : Envoi de l'URL brute dans le champ 'text'
+  // (Crucial : WhatsApp génère sa vignette UNIQUEMENT quand l'URL arrive dans le flux texte brut, comme un copier-coller)
   const shareTargetUrl = "https://imaginart-design.github.io/ALLALI-S-FIRM/?v=2";
 
   document.getElementById('btnShare').addEventListener('click', async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          url: shareTargetUrl
+          text: shareTargetUrl
         });
       } catch (e) {
         copyUrl();
@@ -882,20 +883,29 @@
     if (e.target === modalQr) modalQr.classList.remove('active');
   });
 
-  // Gestion intelligente : Enregistrer le contact (Smartphone vs PC)
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  // Gestion intelligente : Enregistrer le contact (Android Intent vs iOS Contacts vs PC)
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
   const btnSave = document.getElementById('btnSaveContact');
 
-  if (isMobile) {
-    // SUR SMARTPHONE : Ouvrir directement l'application Contacts du téléphone
+  if (isAndroid) {
+    // SUR ANDROID : Ouverture DIRECTE de l'application Contacts native (aucun fichier téléchargé)
+    btnSave.removeAttribute('download');
+    btnSave.href = "javascript:void(0)";
+    btnSave.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Intent officiel Android pour insérer un nouveau contact pré-rempli dans l'app Contacts
+      const androidIntent = "intent:#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/contact;S.name=Fatima%20Allali;S.phone=%2B212698763489;S.email=allalifatema09%40gmail.com;S.company=Allali%27s%20Firm;S.job_title=Associate%20Director;end";
+      window.location.href = androidIntent;
+    });
+  } else if (isIOS) {
+    // SUR IPHONE (iOS Safari) : Ouverture directe de la fiche contact native
     btnSave.removeAttribute('download');
     btnSave.addEventListener('click', function(e) {
-      // Sur iPhone / Android, ouvrir le fichier vcf sans l'attribut 'download'
-      // déclenche immédiatement l'affichage de la fiche contact native !
       window.location.href = 'contact.vcf';
     });
   } else {
-    // SUR ORDINATEUR : Télécharger simplement le fichier
+    // SUR ORDINATEUR (PC / Mac) : Téléchargement du fichier .vcf pour Outlook ou carnet de bord
     btnSave.setAttribute('download', 'Fatima-Allali.vcf');
     btnSave.addEventListener('click', function(e) {
       if (window.location.protocol === 'file:') {
