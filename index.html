@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fatima Allali — Allali's Firm</title>
+  <meta name="description" content="Fatima Allali, Associate Director chez Allali's Firm. PhD, Ingénieur, MBA École des Ponts Business School.">
+  <meta name="theme-color" content="#06070a">
+  <meta property="og:title" content="Fatima Allali — Allali's Firm">
+  <meta property="og:description" content="Associate Director · PhD, Ing, MBA École des Ponts Business School">
+
+  <!-- Google Fonts : Cinzel (Serif cabinet de prestige), Space Grotesk (Tech) & Plus Jakarta Sans (UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-void: #06070a;
+      --surface-card: #0d1017;
+      --surface-bento: rgba(14, 18, 27, 0.72);
+      --surface-hover: rgba(22, 28, 42, 0.85);
+
+      /* Palette Tech / IA / Digital Law : Cyan Quantique, Cobalt & Émeraude IA */
+      --cyan-neon: #00f0ff;
+      --cyan-soft: rgba(0, 240, 255, 0.14);
+      --cyan-glow: rgba(0, 240, 255, 0.28);
+      --cobalt-lead: #0066ff;
+      --emerald-ai: #00f5a0;
+      
+      --gradient-tech: linear-gradient(135deg, #00f0ff 0%, #0066ff 60%, #7000ff 100%);
+      --gradient-card: linear-gradient(140deg, #131722 0%, #090b10 100%);
+      --gradient-accent: linear-gradient(90deg, #00f0ff, #00f5a0);
+
+      --border-laser: rgba(0, 240, 255, 0.22);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+
+      --text-pure: #ffffff;
+      --text-muted: #8b95a8;
+      --text-dim: #545e72;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-void);
+      color: var(--text-pure);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+      padding: 28px 18px calc(42px + env(safe-area-inset-bottom));
+      position: relative;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% -10%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 85% 60%, rgba(0, 102, 255, 0.08) 0%, transparent 55%),
+        radial-gradient(circle at 10% 90%, rgba(0, 245, 160, 0.06) 0%, transparent 50%);
+    }
+
+    /* Grille matricielle subtile en arrière-plan (Style Neural / Data Grid) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       1. CARTE VIRTUELLE TECH & STRATEGY (Neural Glass & Titanium)
+       ============================================================ */
+    .card-scene {
+      perspective: 1000px;
+      margin-bottom: 22px;
+      width: 100%;
+    }
+
+    .virtual-card {
+      width: 100%;
+      aspect-ratio: 1.586 / 1;
+      border-radius: 22px;
+      padding: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      background: var(--gradient-card);
+      border: 1px solid var(--border-laser);
+      box-shadow: 
+        0 24px 50px -10px rgba(0, 0, 0, 0.95),
+        0 0 30px rgba(0, 240, 255, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    /* Trait laser holographique sur le bord supérieur */
+    .virtual-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan-neon), var(--emerald-ai), transparent);
+    }
+
+    /* Trame géométrique et microprocesseur gravé en fond */
+    .card-circuit {
+      position: absolute;
+      right: -20px;
+      bottom: -20px;
+      width: 190px;
+      height: 190px;
+      opacity: 0.12;
+      pointer-events: none;
+      background: radial-gradient(circle, var(--cyan-neon) 10%, transparent 70%);
+      mask-image: radial-gradient(circle, black, transparent 75%);
+    }
+
+    /* En-tête de la carte */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .firm-title {
+      font-family: 'Cinzel', Georgia, serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .firm-title .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan-neon);
+      box-shadow: 0 0 10px var(--cyan-neon);
+      animation: pulseAI 2.5s infinite;
+    }
+
+    @keyframes pulseAI {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Corps & Nom de la carte */
+    .card-body {
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-role-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .card-role {
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #00f0ff;
+    }
+
+    .role-sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text-dim);
+    }
+
+    .card-creds {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .card-creds span {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       2. PILLS D'EXPERTISES CLÉS (IT, IA, Droit Numérique, Négociation)
+       ============================================================ */
+    .expertise-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 18px;
+      justify-content: center;
+    }
+
+    .exp-pill {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .exp-pill.highlight {
+      background: rgba(0, 240, 255, 0.08);
+      border-color: rgba(0, 240, 255, 0.25);
+      color: #e0f9ff;
+    }
+
+    /* ============================================================
+       3. BOUTON MAÎTRE : ENREGISTRER LE CONTACT (Cyber Shimmer)
+       ============================================================ */
+    .btn-main-save {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: var(--gradient-tech);
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 
+        0 10px 28px -4px rgba(0, 102, 255, 0.45),
+        0 0 20px rgba(0, 240, 255, 0.25);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 18px;
+      border: none;
+    }
+
+    .btn-main-save::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%; width: 70%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+      transform: skewX(-25deg);
+      animation: techShimmer 4s infinite;
+    }
+
+    @keyframes techShimmer {
+      0%, 65% { left: -100%; }
+      100% { left: 160%; }
+    }
+
+    .btn-main-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px -4px rgba(0, 240, 255, 0.5);
+    }
+
+    .btn-main-save:active {
+      transform: scale(0.985);
+    }
+
+    .btn-main-save svg {
+      width: 20px;
+      height: 20px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ============================================================
+       4. GRILLE BENTO EXECUTIVE (Actions Directes)
+       ============================================================ */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .bento-card {
+      background: var(--surface-bento);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 16px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 112px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bento-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-laser);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 240, 255, 0.12);
+    }
+
+    .bento-card:active {
+      transform: scale(0.98);
+    }
+
+    .bento-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .bento-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan-neon);
+      transition: all 0.2s ease;
+    }
+
+    .bento-card:hover .bento-icon {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: rgba(0, 240, 255, 0.4);
+      color: #ffffff;
+      transform: scale(1.06);
+    }
+
+    .bento-icon svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bento-arrow {
+      color: var(--text-dim);
+      font-size: 13px;
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .bento-card:hover .bento-arrow {
+      color: var(--cyan-neon);
+      transform: translate(2px, -2px);
+    }
+
+    .bento-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 2px;
+      letter-spacing: -0.01em;
+    }
+
+    .bento-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Cartes pleines largeurs */
+    .bento-full {
+      grid-column: span 2;
+      min-height: auto;
+      flex-direction: row;
+      align-items: center;
+      padding: 14px 18px;
+      gap: 14px;
+    }
+
+    .bento-full .bento-header {
+      margin-bottom: 0;
+    }
+
+    .bento-full .bento-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ============================================================
+       5. BARRE D'OUTILS CONNECTÉE (QR Code, Partager, Copier)
+       ============================================================ */
+    .quick-dock {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .dock-btn {
+      background: rgba(14, 18, 27, 0.65);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 12px 6px;
+      color: var(--text-muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+
+    .dock-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-laser);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .dock-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Footer discret et sobre */
+    footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    footer a {
+      color: var(--cyan-neon);
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       6. MODALE QR CODE SCANNER TECH
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 8, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 330px;
+      background: #0f131d;
+      border: 1px solid var(--border-laser);
+      border-radius: 24px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.95), 0 0 35px rgba(0,240,255,0.18);
+      transform: scale(0.92);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .modal-card p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .qr-container {
+      background: #ffffff;
+      padding: 14px;
+      border-radius: 16px;
+      display: inline-block;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .qr-container img {
+      display: block;
+      width: 180px;
+      height: 180px;
+    }
+
+    .btn-close-modal {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255,255,255,0.06);
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-close-modal:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: var(--border-laser);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #111522;
+      border: 1px solid var(--cyan-neon);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <!-- 1. LA CARTE EXECUTIVE : IA, IT & STRATÉGIE -->
+  <div class="card-scene">
+    <div class="virtual-card" id="tiltCard">
+      <div class="card-circuit"></div>
+
+      <!-- En-tête : ALLALI'S FIRM en police Serif d'autorité -->
+      <div class="card-header">
+        <div class="brand-block">
+          <div class="firm-title">
+            <span class="pulse-dot"></span>
+            <span>ALLALI’S FIRM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Titulaire : Fatima Allali en Space Grotesk High-Tech -->
+      <div class="card-body">
+        <div class="card-name">Fatima Allali</div>
+        <div class="card-role-line">
+          <span class="card-role">Associate Director</span>
+          <span class="role-sep"></span>
+          <span class="card-creds">PhD &middot; Ing &middot; MBA</span>
+        </div>
+        <div class="card-creds">École des Ponts Business School</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PILIERS D'EXPERTISE (IT, IA, Droit Numérique, Négociation) -->
+  <div class="expertise-bar">
+    <span class="exp-pill highlight">&#9670; Intelligence Artificielle</span>
+    <span class="exp-pill highlight">&#9670; Solutions Digitales</span>
+    <span class="exp-pill">&#9670; Conseil en Stratégie</span>
+    <span class="exp-pill">&#9670; Droit &amp; Régulation Tech</span>
+    <span class="exp-pill">&#9670; Négociation Stratégique</span>
+  </div>
+
+  <!-- 3. BOUTON MAÎTRE : ENREGISTRER LE CONTACT -->
+  <a class="btn-main-save" id="btnSaveContact" href="contact.vcf" download="Fatima-Allali.vcf">
+    <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+    <span>Enregistrer le contact</span>
+  </a>
+
+  <!-- 4. GRILLE BENTO EXECUTIVE -->
+  <div class="bento-grid">
+    <!-- Bloc Appel Direct -->
+    <a class="bento-card" href="tel:+212698763489">
+      <div class="bento-header">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+        </div>
+        <div class="bento-arrow">↗</div>
+      </div>
+      <div>
+        <div class="bento-title">Téléphone</div>
+        <div class="bento-desc">+212 698 763 489</div>
+      </div>
+    </a>
+
+    <!-- Bloc WhatsApp Direct -->
+    <a class="bento-card" href="https://wa.me/212698763489" target="_blank" rel="noopener">
+      <div class="bento-header">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.4L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2L9 9.5z"/></svg>
+        </div>
+        <div class="bento-arrow">↗</div>
+      </div>
+      <div>
+        <div class="bento-title">WhatsApp</div>
+        <div class="bento-desc">Échanger en direct</div>
+      </div>
+    </a>
+
+    <!-- Bloc Email Pleine Largeur -->
+    <a class="bento-card bento-full" href="mailto:allalifatema09@gmail.com">
+      <div class="bento-header">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+        </div>
+      </div>
+      <div class="bento-info">
+        <div class="bento-title">Email professionnel</div>
+        <div class="bento-desc">allalifatema09@gmail.com</div>
+      </div>
+      <div class="bento-arrow">↗</div>
+    </a>
+
+    <!-- Bloc LinkedIn Pleine Largeur -->
+    <a class="bento-card bento-full pending-link" href="#" id="lnkLinkedIn">
+      <div class="bento-header">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" r="2"/></svg>
+        </div>
+      </div>
+      <div class="bento-info">
+        <div class="bento-title">LinkedIn</div>
+        <div class="bento-desc">Bientôt disponible</div>
+      </div>
+      <div class="bento-arrow">↗</div>
+    </a>
+
+    <!-- Bloc Site Web Pleine Largeur -->
+    <a class="bento-card bento-full pending-link" href="#" id="lnkWebsite">
+      <div class="bento-header">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+      </div>
+      <div class="bento-info">
+        <div class="bento-title">Site Web</div>
+        <div class="bento-desc">Bientôt disponible</div>
+      </div>
+      <div class="bento-arrow">↗</div>
+    </a>
+  </div>
+
+  <!-- 5. DOCK D'OUTILS CONNECTÉS -->
+  <div class="quick-dock">
+    <button class="dock-btn" id="btnQr" type="button">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3z"/><path d="M17 17h4v4h-4z"/><path d="M14 20h3v1h-3z"/><path d="M20 14h1v3h-1z"/></svg>
+      <span>QR Code</span>
+    </button>
+
+    <button class="dock-btn" id="btnShare" type="button">
+      <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4M12 2v13"/></svg>
+      <span>Partager</span>
+    </button>
+
+    <button class="dock-btn" id="btnCopy" type="button">
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      <span id="copyLbl">Copier</span>
+    </button>
+  </div>
+
+  <footer>
+    ALLALI’S FIRM &copy; 2026
+  </footer>
+</main>
+
+<!-- Modale QR Code -->
+<div class="modal-overlay" id="modalQr">
+  <div class="modal-card">
+    <h3>Scanner la carte</h3>
+    <p>Scannez pour ouvrir et enregistrer instantanément la carte sur smartphone</p>
+    <div class="qr-container">
+      <img id="qrImage" src="" alt="QR Code de la carte">
+    </div>
+    <div id="qrUrlLabel" style="font-size: 11px; color: var(--text-dim); margin-top: -10px; margin-bottom: 18px; word-break: break-all; opacity: 0.85;"></div>
+    <button class="btn-close-modal" id="btnCloseModal" type="button">Fermer</button>
+  </div>
+</div>
+
+<!-- Notification Toast -->
+<div class="toast" id="toast">
+  <span>✓ Lien copié dans le presse-papier</span>
+</div>
+
+<script>
+  // En ligne sur GitHub Pages, la carte détecte automatiquement son URL publique réelle.
+  // En test local sur votre PC (file://), elle utilise cette URL publique de secours :
+  const FALLBACK_PUBLIC_URL = "https://novabureau.github.io/cartes/allali-fatima/";
+  const isLocalFile = window.location.protocol === 'file:';
+  const pageUrl = isLocalFile ? FALLBACK_PUBLIC_URL : window.location.href.split('#')[0];
+
+  // Gestion des liens temporaires sans URL (LinkedIn, Site Web)
+  document.querySelectorAll('.pending-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const title = link.querySelector('.bento-title') ? link.querySelector('.bento-title').textContent : 'Ce lien';
+      showToast('ℹ️ ' + title + ' bientôt disponible');
+    });
+  });
+
+  // Effet 3D subtil de la carte au curseur
+  const card = document.getElementById('tiltCard');
+  if (window.matchMedia("(hover: hover)").matches) {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotateX = (-y / rect.height) * 12;
+      const rotateY = (x / rect.width) * 12;
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+  }
+
+  // Toast
+  function showToast(text) {
+    const toast = document.getElementById('toast');
+    if (text) toast.querySelector('span').textContent = text;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2400);
+  }
+
+  // Partager
+  document.getElementById('btnShare').addEventListener('click', async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Fatima Allali — Allali's Firm",
+          text: "Fatima Allali · Associate Director, Allali's Firm",
+          url: pageUrl
+        });
+      } catch (e) {}
+    } else {
+      copyUrl();
+    }
+  });
+
+  // Copier
+  document.getElementById('btnCopy').addEventListener('click', copyUrl);
+  async function copyUrl() {
+    try {
+      await navigator.clipboard.writeText(pageUrl);
+      showToast('✓ Lien copié dans le presse-papier');
+    } catch (e) {
+      prompt('Copiez le lien ci-dessous :', pageUrl);
+    }
+  }
+
+  // QR Code
+  const modalQr = document.getElementById('modalQr');
+  const btnQr = document.getElementById('btnQr');
+  const btnCloseModal = document.getElementById('btnCloseModal');
+  const qrImage = document.getElementById('qrImage');
+
+  btnQr.addEventListener('click', () => {
+    const encodedUrl = encodeURIComponent(pageUrl);
+    qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=06-07-10&data=' + encodedUrl;
+    document.getElementById('qrUrlLabel').textContent = pageUrl;
+    modalQr.classList.add('active');
+  });
+
+  btnCloseModal.addEventListener('click', () => {
+    modalQr.classList.remove('active');
+  });
+
+  modalQr.addEventListener('click', (e) => {
+    if (e.target === modalQr) modalQr.classList.remove('active');
+  });
+
+  // Sauvegarde vCard universelle
+  document.getElementById('btnSaveContact').addEventListener('click', function(e) {
+    if (window.location.protocol === 'file:') {
+      e.preventDefault();
+      const vcardData = [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        "N:Allali;Fatima;;;",
+        "FN:Fatima Allali",
+        "ORG:Allali's Firm",
+        "TITLE:Associate Director",
+        "TEL;TYPE=CELL,VOICE,pref:+212698763489",
+        "EMAIL;TYPE=INTERNET,pref:allalifatema09@gmail.com",
+        "URL:" + pageUrl,
+        "NOTE:PhD, Ing, MBA École des Ponts Business School",
+        "END:VCARD"
+      ].join("\r\n");
+
+      const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Fatima-Allali.vcf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  });
+</script>
+</body>
+</html>
