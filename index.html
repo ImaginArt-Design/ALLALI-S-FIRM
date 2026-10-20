@@ -758,10 +758,11 @@
       <span>QR Code</span>
     </button>
 
-    <button class="dock-btn" id="btnShare" type="button">
-      <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4M12 2v13"/></svg>
+    <!-- Partager via WhatsApp DIRECT (ouvre WA avec lien pré-écrit → génère la vignette) -->
+    <a class="dock-btn" id="btnShare" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.4L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2L9 9.5z"/></svg>
       <span>Partager</span>
-    </button>
+    </a>
 
     <button class="dock-btn" id="btnCopy" type="button">
       <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -833,23 +834,12 @@
     setTimeout(() => toast.classList.remove('show'), 2400);
   }
 
-  // Partager : Envoi de l'URL brute dans le champ 'text'
-  // (Crucial : WhatsApp génère sa vignette UNIQUEMENT quand l'URL arrive dans le flux texte brut, comme un copier-coller)
-  const shareTargetUrl = "https://imaginart-design.github.io/ALLALI-S-FIRM/?v=2";
+  // URL publique de la carte (cache-buster ?v=3 pour WhatsApp)
+  const shareTargetUrl = "https://imaginart-design.github.io/ALLALI-S-FIRM/?v=3";
 
-  document.getElementById('btnShare').addEventListener('click', async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          text: shareTargetUrl
-        });
-      } catch (e) {
-        copyUrl();
-      }
-    } else {
-      copyUrl();
-    }
-  });
+  // Bouton "Partager" : Lien WhatsApp direct avec URL pré-écrite (déclenche la vignette)
+  const btnShareEl = document.getElementById('btnShare');
+  btnShareEl.href = "https://wa.me/?text=" + encodeURIComponent(shareTargetUrl);
 
   // Copier
   document.getElementById('btnCopy').addEventListener('click', copyUrl);
@@ -883,57 +873,54 @@
     if (e.target === modalQr) modalQr.classList.remove('active');
   });
 
-  // Gestion intelligente : Enregistrer le contact (Android Intent vs iOS Contacts vs PC)
-  const isAndroid = /Android/i.test(navigator.userAgent);
-  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
-  const btnSave = document.getElementById('btnSaveContact');
+  // ── ENREGISTRER LE CONTACT ──────────────────────────────────────────────────
+  // Données vCard complètes
+  const VCARD = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "N:Allali;Fatima;;;",
+    "FN:Fatima Allali",
+    "ORG:Allali's Firm",
+    "TITLE:Associate Director",
+    "TEL;TYPE=CELL,VOICE,pref:+212698763489",
+    "EMAIL;TYPE=INTERNET,pref:allalifatema09@gmail.com",
+    "URL:" + shareTargetUrl,
+    "NOTE:PhD, Ing, MBA École des Ponts Business School",
+    "END:VCARD"
+  ].join("\r\n");
 
-  if (isAndroid) {
-    // SUR ANDROID : Ouverture DIRECTE de l'application Contacts native (aucun fichier téléchargé)
-    btnSave.removeAttribute('download');
-    btnSave.href = "javascript:void(0)";
-    btnSave.addEventListener('click', function(e) {
-      e.preventDefault();
-      // Intent officiel Android pour insérer un nouveau contact pré-rempli dans l'app Contacts
-      const androidIntent = "intent:#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/contact;S.name=Fatima%20Allali;S.phone=%2B212698763489;S.email=allalifatema09%40gmail.com;S.company=Allali%27s%20Firm;S.job_title=Associate%20Director;end";
-      window.location.href = androidIntent;
-    });
-  } else if (isIOS) {
-    // SUR IPHONE (iOS Safari) : Ouverture directe de la fiche contact native
-    btnSave.removeAttribute('download');
-    btnSave.addEventListener('click', function(e) {
-      window.location.href = 'contact.vcf';
-    });
-  } else {
-    // SUR ORDINATEUR (PC / Mac) : Téléchargement du fichier .vcf pour Outlook ou carnet de bord
-    btnSave.setAttribute('download', 'Fatima-Allali.vcf');
-    btnSave.addEventListener('click', function(e) {
-      if (window.location.protocol === 'file:') {
-        e.preventDefault();
-        const vcardData = [
-          "BEGIN:VCARD",
-          "VERSION:3.0",
-          "N:Allali;Fatima;;;",
-          "FN:Fatima Allali",
-          "ORG:Allali's Firm",
-          "TITLE:Associate Director",
-          "TEL;TYPE=CELL,VOICE,pref:+212698763489",
-          "EMAIL;TYPE=INTERNET,pref:allalifatema09@gmail.com",
-          "URL:" + shareTargetUrl,
-          "NOTE:PhD, Ing, MBA École des Ponts Business School",
-          "END:VCARD"
-        ].join("\r\n");
+  document.getElementById('btnSaveContact').addEventListener('click', async function(e) {
+    e.preventDefault();
 
-        const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'Fatima-Allali.vcf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const vcfFile = new File([VCARD], 'Fatima-Allali.vcf', { type: 'text/vcard' });
+
+    // Tentative 1 : Web Share API avec fichier (Android → ouvre le share sheet natif → Contacts)
+    if (navigator.canShare && navigator.canShare({ files: [vcfFile] })) {
+      try {
+        await navigator.share({ files: [vcfFile] });
+        return;
+      } catch (err) {
+        // Annulé par l'utilisateur ou refusé → on continue avec le fallback
+        if (err.name === 'AbortError') return;
       }
-    });
-  }
+    }
+
+    // Tentative 2 : iOS Safari — ouvrir contact.vcf sans download → ouvre l'app Contacts directement
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      window.location.href = 'contact.vcf';
+      return;
+    }
+
+    // Fallback PC / navigateurs sans canShare : télécharger le .vcf
+    const blob = new Blob([VCARD], { type: 'text/vcard' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'Fatima-Allali.vcf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+  });
 </script>
 </body>
 </html>
