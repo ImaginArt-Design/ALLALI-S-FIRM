@@ -758,11 +758,11 @@
       <span>QR Code</span>
     </button>
 
-    <!-- Partager via WhatsApp DIRECT (ouvre WA avec lien pré-écrit → génère la vignette) -->
-    <a class="dock-btn" id="btnShare" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.4L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2L9 9.5z"/></svg>
+    <!-- Bouton Partager -->
+    <button class="dock-btn" id="btnShare" type="button">
+      <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4M12 2v13"/></svg>
       <span>Partager</span>
-    </a>
+    </button>
 
     <button class="dock-btn" id="btnCopy" type="button">
       <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -834,12 +834,17 @@
     setTimeout(() => toast.classList.remove('show'), 2400);
   }
 
-  // URL publique de la carte (cache-buster ?v=3 pour WhatsApp)
-  const shareTargetUrl = "https://imaginart-design.github.io/ALLALI-S-FIRM/?v=3";
+  const shareTargetUrl = "https://imaginart-design.github.io/ALLALI-S-FIRM/";
 
-  // Bouton "Partager" : Lien WhatsApp direct avec URL pré-écrite (déclenche la vignette)
-  const btnShareEl = document.getElementById('btnShare');
-  btnShareEl.href = "https://wa.me/?text=" + encodeURIComponent(shareTargetUrl);
+  // Bouton Partager : navigator.share classique, fallback copie
+  document.getElementById('btnShare').addEventListener('click', async () => {
+    if (navigator.share) {
+      try { await navigator.share({ title: "Fatima Allali — Allali's Firm", url: shareTargetUrl }); }
+      catch (e) { if (e.name !== 'AbortError') copyUrl(); }
+    } else {
+      copyUrl();
+    }
+  });
 
   // Copier
   document.getElementById('btnCopy').addEventListener('click', copyUrl);
@@ -847,9 +852,7 @@
     try {
       await navigator.clipboard.writeText(shareTargetUrl);
       showToast('✓ Lien copié dans le presse-papier');
-    } catch (e) {
-      prompt('Copiez le lien ci-dessous :', shareTargetUrl);
-    }
+    } catch (e) { prompt('Copiez le lien :', shareTargetUrl); }
   }
 
   // QR Code
@@ -859,67 +862,38 @@
   const qrImage = document.getElementById('qrImage');
 
   btnQr.addEventListener('click', () => {
-    const encodedUrl = encodeURIComponent(shareTargetUrl);
-    qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=06-07-10&data=' + encodedUrl;
+    qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=06-07-10&data=' + encodeURIComponent(shareTargetUrl);
     document.getElementById('qrUrlLabel').textContent = shareTargetUrl;
     modalQr.classList.add('active');
   });
-
-  btnCloseModal.addEventListener('click', () => {
-    modalQr.classList.remove('active');
-  });
-
-  modalQr.addEventListener('click', (e) => {
-    if (e.target === modalQr) modalQr.classList.remove('active');
-  });
+  btnCloseModal.addEventListener('click', () => modalQr.classList.remove('active'));
+  modalQr.addEventListener('click', (e) => { if (e.target === modalQr) modalQr.classList.remove('active'); });
 
   // ── ENREGISTRER LE CONTACT ──────────────────────────────────────────────────
-  // Données vCard complètes
-  const VCARD = [
-    "BEGIN:VCARD",
-    "VERSION:3.0",
-    "N:Allali;Fatima;;;",
-    "FN:Fatima Allali",
-    "ORG:Allali's Firm",
-    "TITLE:Associate Director",
-    "TEL;TYPE=CELL,VOICE,pref:+212698763489",
-    "EMAIL;TYPE=INTERNET,pref:allalifatema09@gmail.com",
-    "URL:" + shareTargetUrl,
-    "NOTE:PhD, Ing, MBA École des Ponts Business School",
-    "END:VCARD"
-  ].join("\r\n");
-
-  document.getElementById('btnSaveContact').addEventListener('click', async function(e) {
+  // Sur mobile (iOS + Android) : window.location.href sur contact.vcf
+  //   → iOS Safari : ouvre Contacts directement
+  //   → Android Chrome : télécharge + bouton "Ouvrir" immédiat → Contacts (1 tap)
+  // Sur PC : blob download
+  document.getElementById('btnSaveContact').addEventListener('click', function(e) {
     e.preventDefault();
-
-    const vcfFile = new File([VCARD], 'Fatima-Allali.vcf', { type: 'text/vcard' });
-
-    // Tentative 1 : Web Share API avec fichier (Android → ouvre le share sheet natif → Contacts)
-    if (navigator.canShare && navigator.canShare({ files: [vcfFile] })) {
-      try {
-        await navigator.share({ files: [vcfFile] });
-        return;
-      } catch (err) {
-        // Annulé par l'utilisateur ou refusé → on continue avec le fallback
-        if (err.name === 'AbortError') return;
-      }
-    }
-
-    // Tentative 2 : iOS Safari — ouvrir contact.vcf sans download → ouvre l'app Contacts directement
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       window.location.href = 'contact.vcf';
-      return;
+    } else {
+      const vcard = [
+        "BEGIN:VCARD","VERSION:3.0","N:Allali;Fatima;;;","FN:Fatima Allali",
+        "ORG:Allali's Firm","TITLE:Associate Director",
+        "TEL;TYPE=CELL,VOICE,pref:+212698763489",
+        "EMAIL;TYPE=INTERNET,pref:allalifatema09@gmail.com",
+        "URL:" + shareTargetUrl,
+        "NOTE:PhD, Ing, MBA \u00c9cole des Ponts Business School",
+        "END:VCARD"
+      ].join("\r\n");
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([vcard], { type: 'text/vcard' }));
+      a.download = 'Fatima-Allali.vcf';
+      a.click();
+      URL.revokeObjectURL(a.href);
     }
-
-    // Fallback PC / navigateurs sans canShare : télécharger le .vcf
-    const blob = new Blob([VCARD], { type: 'text/vcard' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'Fatima-Allali.vcf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
   });
 </script>
 </body>
